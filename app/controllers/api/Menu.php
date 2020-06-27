@@ -27,13 +27,13 @@ class Menu extends SAM_Controller
 		if($this->is_login){
 			$lists = [];
 			// Get List
-			$data_menu = $this->M_menu->getMain();
+			$data_menu = $this->M_menu->getMain(null,$res->is_sa);
 			// Set Menu and Submenu
 			if(!empty($data_menu)){
 				foreach ($data_menu as $main) {
 					$lists[(int)$main->sequence]['parent'] = $main;
 	
-					$data_subs = $this->M_menu->getSubs($main->id_menu);
+					$data_subs = $this->M_menu->getSubs($main->id_menu,null,$res->is_sa);
 					$lists[(int)$main->sequence]['sub'] = $data_subs;
 				}
 			}
@@ -65,13 +65,13 @@ class Menu extends SAM_Controller
 		if($this->is_login){
 			$lists = [];
 			// Get List
-			$data_menu = $this->M_menu->getMain($res->roles);
+			$data_menu = $this->M_menu->getMain($res->roles,$res->is_sa);
 			// Set Menu and Submenu
 			if(!empty($data_menu)){
 				foreach ($data_menu as $main) {
 					$lists[(int)$main->sequence]['parent'] = $main;
 	
-					$data_subs = $this->M_menu->getSubs($main->id_menu,$res->roles);
+					$data_subs = $this->M_menu->getSubs($main->id_menu,$res->roles,$res->is_sa);
 					$lists[(int)$main->sequence]['sub'] = $data_subs;
 				}
 			}
@@ -111,6 +111,7 @@ class Menu extends SAM_Controller
 					'icon' => $res->icon,
 					'parent' => $res->parent,
 					'sequence' => $res->sequence,
+					'sa_only' => $res->sa_only,
 					'active' => $res->is_active
 				];
 				// Set Response Code
@@ -159,6 +160,7 @@ class Menu extends SAM_Controller
 					'icon' => $res->icon,
 					'parent' => $res->parent,
 					'sequence' => $res->sequence,
+					'sa_only' => $res->sa_only,
 					'active' => $res->is_active
 				];
 				// Set Response Code

@@ -29,12 +29,17 @@ class M_menu extends SAM_Model {
 		}
     }
 
-    public function getMain($roles=null)
+    public function getMain($roles=null,$is_sa=0)
     {
         $data = array(
             'menu.parent' => 0,
+            'menu.sa_only' => 0,
             'menu.active' => 1
         );
+
+        if($is_sa){
+            unset($data['menu.sa_only']);
+        }
 
         if($roles){
             $data['menu_permission.id_roles'] = $roles;
@@ -55,12 +60,17 @@ class M_menu extends SAM_Model {
         }
     }
 
-    public function getSubs($parent,$roles=null)
+    public function getSubs($parent,$roles=null,$is_sa=0)
     {
         $data = array(
             'menu.parent' => $parent,
+            'menu.sa_only' => 0,
             'menu.active' => 1
         );
+
+        if($is_sa){
+            unset($data['menu.sa_only']);
+        }
 
         if($roles){
             $data['menu_permission.id_roles'] = $roles;
