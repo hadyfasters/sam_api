@@ -51,11 +51,9 @@ class Outlet extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
@@ -79,11 +77,9 @@ class Outlet extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
@@ -107,11 +103,9 @@ class Outlet extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -122,8 +116,14 @@ class Outlet extends SAM_Controller
 					'code' => $res->code,
 					'name' => $res->name,
 					'start_date' => $res->start_date,
+					'end_date' => $res->end_date,
 					'status' => $res->status
 				];
+
+				if($res->end_date){
+					$input['end_date'] = $res->end_date;
+				}
+
 				// Set Response Code
 				$this->response_code = 200;
 				// Save the Data
@@ -153,11 +153,9 @@ class Outlet extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -201,11 +199,9 @@ class Outlet extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($req)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -218,6 +214,7 @@ class Outlet extends SAM_Controller
 					'code' => $res->code,
 					'name' => $res->name,
 					'start_date' => $res->start_date,
+					'end_date' => $res->end_date,
 					'status' => $res->status
 				];
 
@@ -249,11 +246,9 @@ class Outlet extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -270,10 +265,6 @@ class Outlet extends SAM_Controller
 					'end_date' => $res->end_date,
 					// 'status' => $res->status
 				];
-
-				if($res->end_date){
-					$input['end_date'] = $res->end_date;
-				}
 				
 				// Set Response Code
 				$this->response_code = 200;

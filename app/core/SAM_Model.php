@@ -18,8 +18,13 @@ class SAM_Model extends CI_Model{
 
     protected function _delete() 
     {
-        if($this->_where) $this->db->where($this->_where);
-        return $this->db->delete($this->_table);
+        $this->db->where($this->_where);
+        $delete = $this->db->delete($this->_table);
+        if(!$delete){
+            $return = false;
+        }else $return = true;
+
+        return $return;
     }
 
     public function save($data, $id = NULL) 

@@ -23,18 +23,14 @@ class User extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			// if(!is_array($res) && empty($res)){
-			if(empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-				
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
 			if(!empty($res)) {
-				if(isset($res->level) && $res->level == 99) {
+				if(isset($res->is_sa) && $res->is_sa == 1) {
 					$users = $this->M_users->getAll($res);
 				}else{
 					$users = $this->M_users->get($res);
@@ -62,12 +58,9 @@ class User extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-				
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
@@ -93,11 +86,9 @@ class User extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -107,6 +98,7 @@ class User extends SAM_Controller
 				$input = [
 					'npp' => $res->npp,
 					'nama' => $res->nama,
+					'roles' => $res->roles,
 					'position' => $res->position,
 					'branch_code' => $res->branch,
 					'active' => $res->status
@@ -115,7 +107,7 @@ class User extends SAM_Controller
 				// get userposition for default password
 				$pos = $this->M_userposition->getByID($res->position);
 				// Set Password Default
-				$input['password'] = $this->hash($pos->up_default);
+				$input['password'] = $this->hash($pos->default_password);
 
 				// Set Response Code
 				$this->response_code = 200;
@@ -146,11 +138,9 @@ class User extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -181,6 +171,7 @@ class User extends SAM_Controller
 
 					$diff = array_diff_assoc($input,$old);
 
+					$input['roles'] = $res->roles;
 					$input['is_active'] = $res->status;
 
 					$update = $this->M_users->save($input,$id);
@@ -220,11 +211,9 @@ class User extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if($req && !isset($res->auth_token)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -271,11 +260,9 @@ class User extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if($req && !isset($res->auth_token)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {

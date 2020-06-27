@@ -15,10 +15,11 @@ class M_users extends SAM_Model {
 
     public function getAll()
     {
-        $this->db->select('dt_user.id_user,dt_user.npp,dt_user.nama,dt_user_position.up_level as level,ms_branch.id_branch,ms_branch.code as branch_code,ms_region.id_region,ms_region.code as region_code,dt_user.position,dt_user_position.up_name as position_name,dt_user.is_active');
-        $this->db->join('dt_user_position','dt_user_position.up_id=dt_user.position','inner');
-        $this->db->join('ms_branch','ms_branch.id_branch=dt_user.branch_code','inner');
-        $this->db->join('ms_region','ms_region.id_region=ms_branch.id_region','inner');
+        $this->db->select('dt_user.id_user,dt_user.npp,dt_user.nama,dt_user.password,ms_branch.id_branch,ms_branch.code as branch_code,ms_region.id_region,ms_region.code as region_code,dt_user.roles,ms_roles.role_name,ms_roles.is_sa,ms_roles.acl_view,ms_roles.acl_input,ms_roles.acl_edit,ms_roles.acl_delete,ms_roles.acl_approve,dt_user.position,dt_position.position_name,dt_user.is_active');
+        $this->db->join('dt_position','dt_position.position_id=dt_user.position','left');
+        $this->db->join('ms_roles','ms_roles.role_id=dt_user.roles','left');
+        $this->db->join('ms_branch','ms_branch.id_branch=dt_user.branch_code','left');
+        $this->db->join('ms_region','ms_region.id_region=ms_branch.id_region','left');
         $query = $this->db->get($this->_table);
 
         if ($query->num_rows() > 0) 
@@ -36,8 +37,9 @@ class M_users extends SAM_Model {
             'dt_user.is_active' => 1
         );
 
-        $this->db->select('dt_user.id_user,dt_user.npp,dt_user.nama,dt_user.password,dt_user_position.up_level as level,ms_branch.id_branch,ms_branch.code as branch_code,ms_region.id_region,ms_region.code as region_code,dt_user.position,dt_user_position.up_name as position_name,dt_user.is_active');
-        $this->db->join('dt_user_position','dt_user_position.up_id=dt_user.position','inner');
+        $this->db->select('dt_user.id_user,dt_user.npp,dt_user.nama,dt_user.password,ms_branch.id_branch,ms_branch.code as branch_code,ms_region.id_region,ms_region.code as region_code,dt_user.roles,ms_roles.role_name,ms_roles.is_sa,ms_roles.acl_view,ms_roles.acl_input,ms_roles.acl_edit,ms_roles.acl_delete,ms_roles.acl_approve,dt_user.position,dt_position.position_name,dt_user.is_active');
+        $this->db->join('dt_position','dt_position.position_id=dt_user.position','inner');
+        $this->db->join('ms_roles','ms_roles.role_id=dt_user.roles','inner');
         $this->db->join('ms_branch','ms_branch.id_branch=dt_user.branch_code','inner');
         $this->db->join('ms_region','ms_region.id_region=ms_branch.id_region','inner');
         $this->db->where($data);
@@ -57,8 +59,9 @@ class M_users extends SAM_Model {
             'id_user' => $id
         );
 
-        $this->db->select('dt_user.id_user,dt_user.npp,dt_user.nama,dt_user.password,dt_user_position.up_level as level,ms_branch.id_branch,ms_branch.code as branch_code,ms_region.id_region,ms_region.code as region_code,dt_user.position,dt_user_position.up_name as position_name,dt_user.is_active');
-        $this->db->join('dt_user_position','dt_user_position.up_id=dt_user.position','inner');
+        $this->db->select('dt_user.id_user,dt_user.npp,dt_user.nama,dt_user.password,ms_branch.id_branch,ms_branch.code as branch_code,ms_region.id_region,ms_region.code as region_code,dt_user.roles,ms_roles.role_name,ms_roles.is_sa,ms_roles.acl_view,ms_roles.acl_input,ms_roles.acl_edit,ms_roles.acl_delete,ms_roles.acl_approve,dt_user.position,dt_position.position_name,dt_user.is_active');
+        $this->db->join('dt_position','dt_position.position_id=dt_user.position','inner');
+        $this->db->join('ms_roles','ms_roles.role_id=dt_user.roles','inner');
         $this->db->join('ms_branch','ms_branch.id_branch=dt_user.branch_code','inner');
         $this->db->join('ms_region','ms_region.id_region=ms_branch.id_region','inner');
         $this->db->where($data);

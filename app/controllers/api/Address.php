@@ -39,11 +39,9 @@ class Address extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
@@ -67,11 +65,9 @@ class Address extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
@@ -95,11 +91,9 @@ class Address extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
