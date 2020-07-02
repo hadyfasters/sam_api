@@ -35,11 +35,9 @@ class Product extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($this->is_login){
@@ -63,11 +61,9 @@ class Product extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -110,11 +106,9 @@ class Product extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {

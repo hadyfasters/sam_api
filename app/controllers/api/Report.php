@@ -63,29 +63,24 @@ class Report extends SAM_Controller
 		$this->run(SECURED);
 	}
 
-	public function lead_activity()
+	public function lead_main()
 	{
-		// Get Request
 		$req = file_get_contents('php://input');
-		
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
-
-		if($res !== null) {
-			if($this->is_login){
-				$activityData = $this->M_report->getActivityReport();
-				// Set Response
-				$this->response_code = 200;
-				$this->response['status'] = TRUE;
-				$this->response['data'] = $activityData;
-			}
+		// Get Request
+		if($this->is_login){
+			$leadMainData = $this->M_report->getLeadMainReport();
+			// Set Response
+			$this->response_code = 200;
+			$this->response['status'] = TRUE;
+			$this->response['data'] = $leadMainData;
+			
 		}
 		// Run the Application
 		$this->run(SECURED);

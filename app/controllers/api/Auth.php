@@ -50,7 +50,14 @@ class Auth extends SAM_Controller {
 							'nama' => $user->nama,
 							'job' => $user->position_name,
 							'job_id' => $user->position,
-							'level' => $user->level,
+							'role' => $user->role_name,
+							'role_id' => $user->roles,
+							'is_sa' => $user->is_sa,
+							'acl_view' => $user->acl_view,
+							'acl_input' => $user->acl_input,
+							'acl_edit' => $user->acl_edit,
+							'acl_delete' => $user->acl_delete,
+							'acl_approve' => $user->acl_approve,
 							'branch_code' => $user->branch_code
 						];
 

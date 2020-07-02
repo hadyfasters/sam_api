@@ -36,11 +36,9 @@ class Lead extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -66,11 +64,9 @@ class Lead extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -106,11 +102,9 @@ class Lead extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -132,8 +126,10 @@ class Lead extends SAM_Controller
 					'produk' => $res->produk,
 					'additional_info' => $res->additional_info,
 					'created_date' => date('Y-m-d H:i:s'),
-					'created_by' => $res->user
+					'created_by' => $res->user,
+					'status' => $res->status
 				];
+
 				// Set Response Code
 				$this->response_code = 200;
 				// Save the Data
@@ -163,11 +159,9 @@ class Lead extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -191,6 +185,7 @@ class Lead extends SAM_Controller
 					'produk' => $res->produk,
 					'additional_info' => $res->additional_info,
 					'created_date' => $res->created_date,
+					'status' => $res->status
 				];
 
 				// Set Response Code
@@ -221,11 +216,9 @@ class Lead extends SAM_Controller
 		// Decode Request
 		$res = json_decode($req);
 
-		if(SECURED){
-			if(!is_array($res) && empty($res)){
-				// Get Secured Request
-				$res = json_decode($this->encryption->sam_decrypt($req));
-			}
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
 		if($res !== null) {
@@ -238,13 +231,13 @@ class Lead extends SAM_Controller
 				$notes = '';
 				$call_data = [];
 
-				if($approval){
-					$call_data = [
-						'lead_id' => $id,
-						'created_date' => date('Y-m-d H:i:s'),
-						'created_by' => 'System'
-					];
-				}else{
+				if(!$approval){
+				// 	$call_data = [
+				// 		'lead_id' => $id,
+				// 		'created_date' => date('Y-m-d H:i:s'),
+				// 		'created_by' => 'System'
+				// 	];
+				// }else{
 					$notes = $res->approval_note;
 				}
 
@@ -260,9 +253,9 @@ class Lead extends SAM_Controller
 				$this->response_code = 200;
 				$update = $this->M_lead->save($approval_data,$id);
 				if($update){
-					if(!empty($call_data)){
-						$insert_call = $this->M_call->save($call_data);
-					}
+					// if(!empty($call_data)){
+					// 	$insert_call = $this->M_call->save($call_data);
+					// }
 
 					// Set Success Response
 					$this->response['status'] = TRUE;
@@ -272,6 +265,61 @@ class Lead extends SAM_Controller
 					// Set Error Response
 					$this->response['message'] = 'Error : '.$this->db->error();
 				}
+			}
+		}
+
+		// Run the Application
+		$this->run(SECURED);
+	}
+
+	// remove
+	public function remove()
+	{
+		// Get Request
+		$req = file_get_contents('php://input');
+		
+		// Decode Request
+		$res = json_decode($req);
+
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
+		}
+
+		if($res !== null) {
+			// is Logged In
+			if($this->is_login){
+				// Set ID
+				$id = $res->id;
+
+				try{
+					$this->response_code = 200;
+				
+					$where = [
+						'lead_id' => $id
+					];
+					$deleted = $this->M_lead->removeThis($where);
+
+					if($deleted){
+						// Set Success Response
+						$this->response['status'] = TRUE;
+						$this->response['message'] = 'Lead has been deleted.';
+					}
+				} catch(Exception $e){
+					$this->response['message'] = 'Error : '.$e->getMessage();
+				}
+				// Set Response Code
+				// $this->response_code = 200;
+				// $update = $this->M_lead->delete();
+				// if($update){
+				// 	// Set Success Response
+				// 	$this->response['status'] = TRUE;
+				// 	$this->response['message'] = 'Lead has been deleted.';
+				// 	$this->response['data'] = ['lead_id' => $update];
+				// }else{
+				// 	// Set Error Response
+				// 	$this->response['message'] = 'Error : '.$this->db->error();
+				// }
 			}
 		}
 

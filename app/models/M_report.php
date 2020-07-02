@@ -90,41 +90,42 @@ class M_report extends SAM_Model {
         return FALSE;
     }
 
-    public function getActivityReport()
+    public function getLeadMainReport()
     {
         $_stringQuery = "";
-        $_stringQuery = $_stringQuery . "select f.npp, f.nama, g.code as branch_code, g.name as branch_name, h.code as region_code, ";
+        $_stringQuery = $_stringQuery . "f.npp, f.nama, g.code as branch_code, g.name as branch_name, h.code as region_code, ";
         $_stringQuery = $_stringQuery . "a.lead_id, a.nama_prospek , a.alamat, kontak_person, a.no_kontak, a.jenis_nasabah, ";
         $_stringQuery = $_stringQuery . "sum(a.potensi_dana) as potensi_dana_product, b.product_name, a.kategori_nasabah, count(a.lead_id) as total_lead, ";
         $_stringQuery = $_stringQuery . "sum(c.attempt) as total_call, "; 
         $_stringQuery = $_stringQuery . "round(sum(c.attempt) / count(a.lead_id),2) as perc_total_call, "; 
         $_stringQuery = $_stringQuery . "sum(d.attempts) as total_meet, "; 
         $_stringQuery = $_stringQuery . "round(sum(d.attempts) / count(a.lead_id),2) as perc_total_meet, "; 
-        $_stringQuery = $_stringQuery . "count(close_id) as total_close, ";
+        $_stringQuery = $_stringQuery . "count(close_id) as total_close, ";         
         $_stringQuery = $_stringQuery . "round(count(close_id) / count(a.lead_id),2) as perc_total_close, ";
+        $_stringQuery = $_stringQuery . "sum(e.realisasi_dana) as realisasi_dana, "; 
         $_stringQuery = $_stringQuery . "round(sum(e.realisasi_dana) / sum(a.potensi_dana) * 100, 2) as perc_realisasi_dana ";
         $_stringQuery = $_stringQuery . "from dt_lead a ";
         $_stringQuery = $_stringQuery . "inner join ms_product b on b.product_id = a.produk ";
         $_stringQuery = $_stringQuery . "left outer join dt_call c on c.lead_id = a.lead_id ";
         $_stringQuery = $_stringQuery . "left outer join dt_meet d on d.lead_id = a.lead_id ";
         $_stringQuery = $_stringQuery . "left outer join dt_close e on e.lead_id = a.lead_id ";
-        $_stringQuery = $_stringQuery . "inner join user f on f.id_user = a.created_by ";
+        $_stringQuery = $_stringQuery . "inner join dt_user f on f.id_user = a.created_by ";
         $_stringQuery = $_stringQuery . "inner join ms_branch g on g.id_branch = f.branch_code ";
         $_stringQuery = $_stringQuery . "inner join ms_region h on h.id_region = g.id_region ";
-        $_stringQuery = $_stringQuery . "where e.approval = 1 ";
+        $_stringQuery = $_stringQuery . "where e.approval = 1 and a.created_by = 1 ";
         $_stringQuery = $_stringQuery . "group by f.npp, f.nama, g.code, g.name, h.code, ";
         $_stringQuery = $_stringQuery . "a.lead_id, a.nama_prospek , a.alamat, kontak_person, a.no_kontak, a.jenis_nasabah, "; 
         $_stringQuery = $_stringQuery . "a.potensi_dana, b.product_name, a.kategori_nasabah ";
 
-        if($data->data_summary){
-            $this->db->and('data_summary',$data->data_summary);
-        }
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) 
+        // if($data->data_summary){
+        //     $this->db->and('data_summary',$data->data_summary);
+        // }
+        $this->db->select($_stringQuery);
+        $result = $this->_get();
+        if ($result->num_rows() > 0) 
         {
-            return $query->result();
+            return $result->result();
         }
-        return FALSE;
     }
 }
 

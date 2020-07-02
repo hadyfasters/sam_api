@@ -13,9 +13,12 @@ class M_menu_permission extends SAM_Model {
         $this->_pk = $this->table;
     }
 
-    public function getDataByPosition($id_position)
+    public function getDataByPosition($id_roles)
     {
-    	$this->_where = 'id_position='.$id_position;
+        $this->db->select('menu.*');
+        $this->db->join('menu','menu.id_menu=menu_permission.id_menu','inner');
+
+    	$this->_where = 'id_roles='.$id_roles.' AND menu.active=1';
     	$result = $this->_get();
 
         if ($result->num_rows() > 0) 
@@ -28,7 +31,7 @@ class M_menu_permission extends SAM_Model {
     {
     	$affected = false;
 
-    	$this->_where = 'id_position='.$id_position;
+    	$this->_where = 'id_roles='.$id_position;
     	$this->_delete();
 
     	if($this->db->affected_rows()){
