@@ -146,12 +146,11 @@ class Roles extends SAM_Controller
 				// Set Input
 				$input = [
 					'role_name' => $res->role_name,
-					'remarks' => $res->remarks,
-					'acl_view' => $res->acl_view,
 					'acl_input' => $res->acl_input,
 					'acl_edit' => $res->acl_edit,
 					'acl_delete' => $res->acl_delete,
 					'acl_approve' => $res->acl_approve,
+					'is_sa' => $res->is_sa,
 					'is_active' => $res->is_active
 				];
 				// Set Response Code

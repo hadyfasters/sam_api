@@ -85,7 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 
-define('SECURED',TRUE);
+define('SECURED',FALSE);
 define('LOGIN_TOKEN_DURATION',7200);
 
 define('SAM_API_URL','localhost/sam_api/api/');

@@ -101,7 +101,7 @@ class User extends SAM_Controller
 					'roles' => $res->roles,
 					'position' => $res->position,
 					'branch_code' => $res->branch,
-					'active' => $res->status
+					'is_active' => $res->status
 				];
 
 				// get userposition for default password

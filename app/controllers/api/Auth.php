@@ -58,6 +58,7 @@ class Auth extends SAM_Controller {
 							'acl_edit' => $user->acl_edit,
 							'acl_delete' => $user->acl_delete,
 							'acl_approve' => $user->acl_approve,
+							'branch_id' => $user->id_branch,
 							'branch_code' => $user->branch_code
 						];
 
