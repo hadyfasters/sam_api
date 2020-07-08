@@ -91,7 +91,7 @@ class Userposition extends SAM_Controller
 				$res->is_sa = isset($res->is_sa) ? $res->is_sa:0;
 				// Set Input
 				$input = [
-					'position_name' => $res->title,
+					'position_name' => $res->position_name,
 					'default_password' => $res->default_password,
 					'is_active' => $res->is_active
 				];
@@ -136,7 +136,7 @@ class Userposition extends SAM_Controller
 				$id = $res->id;
 				// Set Input
 				$input = [
-					'position_name' => $res->title,
+					'position_name' => $res->position_name,
 					'default_password' => $res->default_password,
 					'is_active' => $res->is_active
 				];

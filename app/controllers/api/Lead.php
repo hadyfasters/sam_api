@@ -41,14 +41,12 @@ class Lead extends SAM_Controller
 			$res = json_decode($this->encryption->sam_decrypt($req));
 		}
 
-		if($res !== null) {
-			if($this->is_login){
-				$leads = $this->M_lead->getSearch($res);
-				// Set Response
-				$this->response_code = 200;
-				$this->response['status'] = TRUE;
-				$this->response['data'] = $leads;
-			}
+		if($this->is_login){
+			$leads = $this->M_lead->getSearch($res);
+			// Set Response
+			$this->response_code = 200;
+			$this->response['status'] = TRUE;
+			$this->response['data'] = $leads;
 		}
 
 		// Run the Application
@@ -320,6 +318,33 @@ class Lead extends SAM_Controller
 				// 	// Set Error Response
 				// 	$this->response['message'] = 'Error : '.$this->db->error();
 				// }
+			}
+		}
+
+		// Run the Application
+		$this->run(SECURED);
+	}
+
+	public function get_prospect()
+	{
+		// Get Request
+		$req = file_get_contents('php://input');
+		
+		// Decode Request
+		$res = json_decode($req);
+
+		if(!is_array($res) && empty($res) && !empty($req)){
+			// Get Secured Request
+			$res = json_decode($this->encryption->sam_decrypt($req));
+		}
+		if($this->is_login){
+			if($res !== null) {
+				$leads = $this->M_lead->getProspect($res);
+				
+				// Set Response
+				$this->response_code = 200;
+				$this->response['status'] = TRUE;
+				$this->response['data'] = $leads;
 			}
 		}
 
